@@ -1,0 +1,231 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>注册 - 农民信用贷款系统</title>
+    <link rel="stylesheet" href="../styles/styles.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        .auth-container {
+            background-image: linear-gradient(rgba(0,0,0,0.5), rgba(0,0,0,0.5)), url('../images/3.jpg');
+            background-size: cover;
+            background-position: center;
+        }
+    </style>
+</head>
+<body class="bg-gray-100">
+    <div class="min-h-screen flex items-center justify-center auth-container">
+        <div class="bg-white p-8 rounded-lg shadow-lg w-full max-w-md">
+            <div class="text-center mb-8">
+                <img src="../images/logo.jpg" alt="Logo" class="h-16 mx-auto">
+                <h1 class="text-2xl font-bold mt-4">农民信用贷款系统</h1>
+                <p class="text-gray-600">创建您的账户</p>
+            </div>
+
+            <form id="registerForm" class="space-y-6">
+                <div>
+                    <label for="username" class="block text-sm font-medium text-gray-700">用户名</label>
+                    <div class="mt-1 relative rounded-md shadow-sm">
+                        <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+                            <i class="fas fa-user text-gray-400"></i>
+                        </div>
+                        <input type="text" id="username" name="username" required
+                            class="py-2 pl-10 block w-full border border-gray-300 rounded-md focus:ring-primary focus:border-primary"
+                            placeholder="请输入用户名">
+                    </div>
+                </div>
+
+                <div>
+                    <label for="email" class="block text-sm font-medium text-gray-700">邮箱</label>
+                    <div class="mt-1 relative rounded-md shadow-sm">
+                        <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+                            <i class="fas fa-envelope text-gray-400"></i>
+                        </div>
+                        <input type="email" id="email" name="email" required
+                            class="py-2 pl-10 block w-full border border-gray-300 rounded-md focus:ring-primary focus:border-primary"
+                            placeholder="请输入邮箱">
+                    </div>
+                </div>
+
+                <div>
+                    <label for="verificationCode" class="block text-sm font-medium text-gray-700">验证码</label>
+                    <div class="mt-1 flex gap-2">
+                        <div class="relative rounded-md shadow-sm flex-1">
+                            <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+                                <i class="fas fa-shield-alt text-gray-400"></i>
+                            </div>
+                            <input type="text" id="verificationCode" name="verificationCode" required
+                                class="py-2 pl-10 block w-full border border-gray-300 rounded-md focus:ring-primary focus:border-primary"
+                                placeholder="请输入验证码">
+                        </div>
+                        <button type="button" id="sendCodeBtn" 
+                            class="px-4 py-2 border border-transparent text-sm font-medium rounded-md text-white bg-primary hover:bg-primary-dark focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-primary">
+                            发送验证码
+                        </button>
+                    </div>
+                </div>
+
+                <div>
+                    <label for="password" class="block text-sm font-medium text-gray-700">密码</label>
+                    <div class="mt-1 relative rounded-md shadow-sm">
+                        <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+                            <i class="fas fa-lock text-gray-400"></i>
+                        </div>
+                        <input type="password" id="password" name="password" required
+                            class="py-2 pl-10 block w-full border border-gray-300 rounded-md focus:ring-primary focus:border-primary"
+                            placeholder="请输入密码(至少6位)">
+                    </div>
+                </div>
+
+                <div>
+                    <label for="confirmPassword" class="block text-sm font-medium text-gray-700">确认密码</label>
+                    <div class="mt-1 relative rounded-md shadow-sm">
+                        <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+                            <i class="fas fa-lock text-gray-400"></i>
+                        </div>
+                        <input type="password" id="confirmPassword" name="confirmPassword" required
+                            class="py-2 pl-10 block w-full border border-gray-300 rounded-md focus:ring-primary focus:border-primary"
+                            placeholder="请再次输入密码">
+                    </div>
+                </div>
+
+                <div>
+                    <label class="block text-sm font-medium text-gray-700 mb-2">身份类型</label>
+                    <div class="grid grid-cols-2 gap-4">
+                        <div>
+                            <input type="radio" id="userType" name="accountType" value="user" checked
+                                class="focus:ring-primary h-4 w-4 text-primary border-gray-300">
+                            <label for="userType" class="ml-2 block text-sm text-gray-700">普通用户</label>
+                        </div>
+                        <div>
+                            <input type="radio" id="adminType" name="accountType" value="admin"
+                                class="focus:ring-primary h-4 w-4 text-primary border-gray-300">
+                            <label for="adminType" class="ml-2 block text-sm text-gray-700">管理员</label>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="flex items-center">
+                    <input id="agreeTerms" name="agreeTerms" type="checkbox" required
+                        class="h-4 w-4 text-primary focus:ring-primary border-gray-300 rounded">
+                    <label for="agreeTerms" class="ml-2 block text-sm text-gray-700">
+                        我已阅读并同意<a href="#" class="text-primary hover:text-primary-dark">《用户协议》</a>
+                    </label>
+                </div>
+
+                <div>
+                    <button type="submit" 
+                        class="w-full flex justify-center py-2 px-4 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-primary hover:bg-primary-dark focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-primary">
+                        注册
+                    </button>
+                </div>
+            </form>
+
+            <div class="mt-6 text-center text-sm">
+                <p class="text-gray-600">已有账号? <a href="../pages/login.html" class="font-medium text-primary hover:text-primary-dark">立即登录</a></p>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // 发送验证码
+        document.getElementById('sendCodeBtn').addEventListener('click', async function() {
+            const email = document.getElementById('email').value;
+            if (!email) {
+                alert('请输入邮箱地址');
+                return;
+            }
+
+            try {
+                const response = await fetch('/api/send-verification-code', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify({ email })
+                });
+                
+                const data = await response.json();
+                
+                if (response.ok) {
+                    alert('验证码已发送');
+                    // 禁用按钮60秒
+                    let seconds = 60;
+                    this.disabled = true;
+                    const timer = setInterval(() => {
+                        this.textContent = `重新发送(${seconds})`;
+                        seconds--;
+                        if (seconds < 0) {
+                            clearInterval(timer);
+                            this.textContent = '发送验证码';
+                            this.disabled = false;
+                        }
+                    }, 1000);
+                } else {
+                    alert(data.message || '发送验证码失败');
+                }
+            } catch (error) {
+                console.error('Error:', error);
+                alert('发送验证码请求失败');
+            }
+        });
+
+        // 注册表单提交
+        document.getElementById('registerForm').addEventListener('submit', async function(e) {
+            e.preventDefault();
+            
+            const username = document.getElementById('username').value;
+            const email = document.getElementById('email').value;
+            const verificationCode = document.getElementById('verificationCode').value;
+            const password = document.getElementById('password').value;
+            const confirmPassword = document.getElementById('confirmPassword').value;
+            const accountType = document.querySelector('input[name="accountType"]:checked').value;
+            
+            if (password !== confirmPassword) {
+                alert('两次输入的密码不一致');
+                return;
+            }
+            
+            if (password.length < 6) {
+                alert('密码长度不能少于6位');
+                return;
+            }
+
+            if (!verificationCode) {
+                alert('请输入验证码');
+                return;
+            }
+            
+            try {
+                const response = await fetch('/api/register', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify({ 
+                        username,
+                        email,
+                        verificationCode,
+                        password,
+                        accountType 
+                    })
+                });
+                
+                const data = await response.json();
+                
+                if (response.ok) {
+                    alert('注册成功，请登录');
+                    window.location.href = '../pages/login.html?type=' + accountType;
+                } else {
+                    alert(data.message || '注册失败');
+                }
+            } catch (error) {
+                console.error('Error:', error);
+                alert('注册请求失败');
+            }
+        });
+    </script>
+</body>
+</html>

@@ -1,0 +1,451 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>农民信用贷款系统</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Pacifico&display=swap" rel="stylesheet">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/echarts/5.5.0/echarts.min.js"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        primary: '#2B8A3E',
+                        secondary: '#A9E34B'
+                    },
+                    borderRadius: {
+                        'none': '0px',
+                        'sm': '2px',
+                        DEFAULT: '4px',
+                        'md': '8px',
+                        'lg': '12px',
+                        'xl': '16px',
+                        '2xl': '20px',
+                        '3xl': '24px',
+                        'full': '9999px',
+                        'button': '4px'
+                    }
+                }
+            }
+        }
+    </script>
+    <link rel="stylesheet" href="styles/styles.css">
+</head>
+<body class="bg-gray-50">
+    <header class="fixed top-0 left-0 right-0 bg-white shadow-md z-50">
+    <div class="max-w-7xl mx-auto px-4">
+        <div class="flex justify-between items-center h-16">
+            <div class="flex items-center">
+                <!-- 这里修改为正确的图片标签，src里填你的logo图片路径 -->
+                <img src="./images/logo.jpg" alt="农民信用贷款系统LOGO" class="h-10 w-auto" loading="lazy" width="40" height="40"> 
+                <span class="ml-2 text-xl font-semibold">农民信用贷款系统</span>
+            </div>
+    <nav class="hidden md:flex space-x-8" role="navigation" aria-label="主导航">
+        <a href="#" class="text-gray-700 hover:text-primary" aria-current="page">首页</a>
+        <a href="#products" class="text-gray-700 hover:text-primary">产品介绍</a>
+        <a href="#policies" class="text-gray-700 hover:text-primary">政策资讯</a>
+        <a href="#services" class="text-gray-700 hover:text-primary">贷款服务</a>
+    </nav>
+            <div class="flex items-center space-x-4">
+                <button id="loginBtn" class="px-4 py-2 text-primary border border-primary !rounded-button hover:bg-primary hover:text-white whitespace-nowrap">登录</button>
+                <button id="registerBtn" class="px-4 py-2 bg-primary text-white !rounded-button hover:bg-primary/90 whitespace-nowrap">注册</button>
+            </div>
+
+            <!-- 身份选择模态框 -->
+            <div id="authModal" class="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 hidden">
+                <div class="bg-white rounded-lg p-6 w-80">
+                    <h3 class="text-xl font-semibold mb-4">请选择身份</h3>
+                    <div class="space-y-3">
+                        <button onclick="location.href='pages/login.html?type=user'" class="w-full py-2 bg-primary text-white rounded hover:bg-primary-dark">用户登录</button>
+                        <button onclick="location.href='pages/login.html?type=admin'" class="w-full py-2 bg-gray-700 text-white rounded hover:bg-gray-800">管理员登录</button>
+                        <button id="cancelAuth" class="w-full py-2 border border-gray-300 rounded hover:bg-gray-100">取消</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</header>
+
+    <main class="mt-16">
+        <div class="carousel-container" role="region" aria-label="图片轮播">
+            <div class="carousel-slide active">
+                <img src="./images/1.jpg" alt="轮播图1" class="w-full h-full object-cover" loading="lazy" width="1200" height="500">
+                <div class="absolute inset-0 bg-black bg-opacity-40 flex items-center">
+                    <div class="max-w-7xl mx-auto px-4">
+                        <h2 class="text-4xl font-bold text-white mb-4">助力乡村振兴 服务三农发展</h2>
+                        <p class="text-xl text-white">为广大农户提供便捷、高效的金融服务</p>
+                    </div>
+                </div>
+            </div>
+            <div class="carousel-slide">
+                <img src="./images/2.jpg" alt="轮播图2" class="w-full h-full object-cover" loading="lazy" width="1200" height="500">
+                <div class="absolute inset-0 bg-black bg-opacity-40 flex items-center">
+                    <div class="max-w-7xl mx-auto px-4">
+                        <h2 class="text-4xl font-bold text-white mb-4">科技赋能农业 创新驱动发展</h2>
+                        <p class="text-xl text-white">打造智慧农业新模式</p>
+                    </div>
+                </div>
+            </div>
+            <div class="carousel-slide">
+                <img src="./images/3.jpg" alt="轮播图3" class="w-full h-full object-cover" loading="lazy" width="1200" height="500">
+                <div class="absolute inset-0 bg-black bg-opacity-40 flex items-center">
+                    <div class="max-w-7xl mx-auto px-4">
+                        <h2 class="text-4xl font-bold text-white mb-4">普惠金融服务 助力农业发展</h2>
+                        <p class="text-xl text-white">让金融服务更加便捷可及</p>
+                    </div>
+                </div>
+            </div>
+            <div class="carousel-dots"></div>
+        </div>
+        <section id="products" class="py-16 bg-white">
+            <div class="max-w-7xl mx-auto px-4">
+                <h2 class="text-3xl font-bold text-center mb-12">特色贷款产品</h2>
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+                    <div class="bg-white rounded-lg shadow-lg p-8 border border-gray-100">
+                        <div class="h-16 w-16 bg-primary/10 rounded-full flex items-center justify-center mb-6">
+                            <i class="fas fa-seedling text-primary text-2xl"></i>
+                        </div>
+                        <h3 class="text-xl font-semibold mb-4">农业种植贷</h3>
+                        <div class="space-y-4 mb-6">
+                            <div class="flex justify-between">
+                                <span class="text-gray-600">贷款额度</span>
+                                <span class="font-semibold">最高 50 万</span>
+                            </div>
+                            <div class="flex justify-between">
+                                <span class="text-gray-600">年利率</span>
+                                <span class="font-semibold">3.85% 起</span>
+                            </div>
+                            <div class="flex justify-between">
+                                <span class="text-gray-600">期限</span>
+                                <span class="font-semibold">最长 3 年</span>
+                            </div>
+                        </div>
+                        <button class="w-full py-2 bg-primary text-white !rounded-button hover:bg-primary/90">立即申请</button>
+                    </div>
+
+                    <div class="bg-white rounded-lg shadow-lg p-8 border border-gray-100">
+                        <div class="h-16 w-16 bg-primary/10 rounded-full flex items-center justify-center mb-6">
+                            <i class="fas fa-tractor text-primary text-2xl"></i>
+                        </div>
+                        <h3 class="text-xl font-semibold mb-4">农机购置贷</h3>
+                        <div class="space-y-4 mb-6">
+                            <div class="flex justify-between">
+                                <span class="text-gray-600">贷款额度</span>
+                                <span class="font-semibold">最高 100 万</span>
+                            </div>
+                            <div class="flex justify-between">
+                                <span class="text-gray-600">年利率</span>
+                                <span class="font-semibold">4.35% 起</span>
+                            </div>
+                            <div class="flex justify-between">
+                                <span class="text-gray-600">期限</span>
+                                <span class="font-semibold">最长 5 年</span>
+                            </div>
+                        </div>
+                        <button class="w-full py-2 bg-primary text-white !rounded-button hover:bg-primary/90">立即申请</button>
+                    </div>
+
+                    <div class="bg-white rounded-lg shadow-lg p-8 border border-gray-100">
+                        <div class="h-16 w-16 bg-primary/10 rounded-full flex items-center justify-center mb-6">
+                            <i class="fas fa-warehouse text-primary text-2xl"></i>
+                        </div>
+                        <h3 class="text-xl font-semibold mb-4">农业设施贷</h3>
+                        <div class="space-y-4 mb-6">
+                            <div class="flex justify-between">
+                                <span class="text-gray-600">贷款额度</span>
+                                <span class="font-semibold">最高 200 万</span>
+                            </div>
+                            <div class="flex justify-between">
+                                <span class="text-gray-600">年利率</span>
+                                <span class="font-semibold">4.85% 起</span>
+                            </div>
+                            <div class="flex justify-between">
+                                <span class="text-gray-600">期限</span>
+                                <span class="font-semibold">最长 10 年</span>
+                            </div>
+                        </div>
+                        <button class="w-full py-2 bg-primary text-white !rounded-button hover:bg-primary/90">立即申请</button>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section id="services" class="py-16 bg-gray-50">
+            <div class="max-w-7xl mx-auto px-4">
+                <h2 class="text-3xl font-bold text-center mb-12">申请流程</h2>
+                <div class="flex flex-wrap justify-between items-start relative">
+                    <div class="absolute top-1/2 left-0 right-0 h-1 bg-gray-200 -translate-y-1/2"></div>
+                    <div class="relative z-10 w-full md:w-1/5 flex flex-col items-center">
+                        <div class="w-16 h-16 bg-primary text-white rounded-full flex items-center justify-center mb-4">
+                            <i class="fas fa-user-plus text-2xl"></i>
+                        </div>
+                        <h3 class="text-lg font-semibold mb-2">注册认证</h3>
+                        <p class="text-gray-600 text-center">完成实名认证</p>
+                    </div>
+                    <div class="relative z-10 w-full md:w-1/5 flex flex-col items-center mt-8 md:mt-0">
+                        <div class="w-16 h-16 bg-primary text-white rounded-full flex items-center justify-center mb-4">
+                            <i class="fas fa-file-alt text-2xl"></i>
+                        </div>
+                        <h3 class="text-lg font-semibold mb-2">提交申请</h3>
+                        <p class="text-gray-600 text-center">填写贷款申请资料</p>
+                    </div>
+                    <div class="relative z-10 w-full md:w-1/5 flex flex-col items-center mt-8 md:mt-0">
+                        <div class="w-16 h-16 bg-primary text-white rounded-full flex items-center justify-center mb-4">
+                            <i class="fas fa-search text-2xl"></i>
+                        </div>
+                        <h3 class="text-lg font-semibold mb-2">审核评估</h3>
+                        <p class="text-gray-600 text-center">快速审核授信</p>
+                    </div>
+                    <div class="relative z-10 w-full md:w-1/5 flex flex-col items-center mt-8 md:mt-0">
+                        <div class="w-16 h-16 bg-primary text-white rounded-full flex items-center justify-center mb-4">
+                            <i class="fas fa-check-circle text-2xl"></i>
+                        </div>
+                        <h3 class="text-lg font-semibold mb-2">签约放款</h3>
+                        <p class="text-gray-600 text-center">在线签约放款</p>
+                    </div>
+                    <div class="relative z-10 w-full md:w-1/5 flex flex-col items-center mt-8 md:mt-0">
+                        <div class="w-16 h-16 bg-primary text-white rounded-full flex items-center justify-center mb-4">
+                            <i class="fas fa-money-bill-wave text-2xl"></i>
+                        </div>
+                        <h3 class="text-lg font-semibold mb-2">资金到账</h3>
+                        <p class="text-gray-600 text-center">资金实时到账</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section class="py-16 bg-white">
+            <div class="max-w-7xl mx-auto px-4">
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+                    <div>
+                        <h2 class="text-3xl font-bold mb-8">贷款计算器</h2>
+                        <div class="bg-gray-50 p-8 rounded-lg">
+                            <div class="mb-6">
+                                <label class="block text-gray-700 mb-2">贷款金额（元）</label>
+                                <div class="relative">
+                                    <input id="loanAmount" type="number" class="w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent" placeholder="请输入贷款金额" min="1000">
+                                </div>
+                            </div>
+                            <div class="mb-6">
+                                <label class="block text-gray-700 mb-2">贷款期限（月）</label>
+                                <div class="relative">
+                                    <input id="loanTerm" type="number" class="w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent" placeholder="请输入贷款期限" min="1" max="360">
+                                </div>
+                            </div>
+                            <div class="mb-6">
+                                <label class="block text-gray-700 mb-2">年利率（%）</label>
+                                <div class="relative">
+                                    <input id="interestRate" type="number" step="0.01" class="w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent" placeholder="请输入年利率" min="0.1" max="20">
+                                </div>
+                            </div>
+                            <button id="calculateBtn" class="w-full py-2 bg-primary text-white !rounded-button hover:bg-primary/90">计算</button>
+                            <div id="resultContainer" class="mt-6 hidden">
+                                <div class="bg-gray-50 p-4 rounded-lg">
+                                    <h3 class="font-semibold mb-2">计算结果</h3>
+                                    <div class="grid grid-cols-2 gap-4">
+                                        <div>
+                                            <p class="text-gray-600">每月还款</p>
+                                            <p id="monthlyPayment" class="text-xl font-bold text-primary">¥0</p>
+                                        </div>
+                                        <div>
+                                            <p class="text-gray-600">总利息</p>
+                                            <p id="totalInterest" class="text-xl font-bold text-primary">¥0</p>
+                                        </div>
+                                        <div>
+                                            <p class="text-gray-600">总还款额</p>
+                                            <p id="totalPayment" class="text-xl font-bold text-primary">¥0</p>
+                                        </div>
+                                        <div>
+                                            <p class="text-gray-600">还款日期</p>
+                                            <p id="repaymentDate" class="text-xl font-bold text-primary">-</p>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div>
+                        <h2 class="text-3xl font-bold mb-8">常见问题</h2>
+                        <div class="space-y-4">
+                            <div class="border border-gray-200 rounded-lg">
+                            <button class="w-full px-6 py-4 text-left font-semibold flex justify-between items-center" aria-expanded="false" aria-controls="faq1">
+                                <span>申请贷款需要哪些材料？</span>
+                                <i class="fas fa-chevron-down text-gray-400" aria-hidden="true"></i>
+                            </button>
+                                <div class="px-6 py-4 border-t border-gray-200">
+                                    <p class="text-gray-600">需要提供身份证、户口本、土地承包经营权证等基本证件，以及相关收入证明和资产证明等材料。具体要求可能因产品不同而异。</p>
+                                </div>
+                            </div>
+                            <div class="border border-gray-200 rounded-lg">
+                            <button class="w-full px-6 py-4 text-left font-semibold flex justify-between items-center" aria-expanded="false" aria-controls="faq2">
+                                <span>贷款额度如何确定？</span>
+                                <i class="fas fa-chevron-down text-gray-400" aria-hidden="true"></i>
+                            </button>
+                                <div class="px-6 py-4 border-t border-gray-200">
+                                    <p class="text-gray-600">贷款额度主要根据申请人的信用记录、收入水平、资产状况等综合因素评估确定。我们会根据实际情况给出最合适的贷款方案。</p>
+                                </div>
+                            </div>
+                            <div class="border border-gray-200 rounded-lg">
+                            <button class="w-full px-6 py-4 text-left font-semibold flex justify-between items-center" aria-expanded="false" aria-controls="faq3">
+                                <span>贷款利率如何计算？</span>
+                                <i class="fas fa-chevron-down text-gray-400" aria-hidden="true"></i>
+                            </button>
+                                <div class="px-6 py-4 border-t border-gray-200">
+                                    <p class="text-gray-600">贷款利率按照人民银行基准利率和市场利率综合确定，可能会根据不同产品和客户情况有所调整。具体利率以实际审批为准。</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section id="policies" class="py-16 bg-gray-50">
+            <div class="max-w-7xl mx-auto px-4">
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+                    <div>
+                        <h2 class="text-3xl font-bold mb-8">最新政策</h2>
+                        <div class="space-y-4">
+                            <div class="bg-white p-4 rounded-lg">
+                                <h3 class="font-semibold mb-2">关于进一步加大对农业产业化龙头企业信贷支持的通知</h3>
+                                <p class="text-gray-600 text-sm">2024-01-15</p>
+                            </div>
+                            <div class="bg-white p-4 rounded-lg">
+                                <h3 class="font-semibold mb-2">农业农村部关于实施乡村振兴金融支持计划的指导意见</h3>
+                                <p class="text-gray-600 text-sm">2024-01-10</p>
+                            </div>
+                            <div class="bg-white p-4 rounded-lg">
+                                <h3 class="font-semibold mb-2">关于完善农村信用体系建设的实施方案</h3>
+                                <p class="text-gray-600 text-sm">2024-01-05</p>
+                            </div>
+                            <div class="bg-white p-4 rounded-lg">
+                                <h3 class="font-semibold mb-2">农业农村部关于金融支持乡村产业发展的指导意见</h3>
+                                <p class="text-gray-600 text-sm">2024-01-01</p>
+                            </div>
+                        </div>
+                        <button class="mt-6 px-6 py-2 border border-primary text-primary !rounded-button hover:bg-primary hover:text-white">查看更多</button>
+                    </div>
+
+                    <div>
+                        <h2 class="text-3xl font-bold mb-8">政策解读</h2>
+                        <div class="bg-white p-6 rounded-lg">
+                            <img src="./images/4.jpg" alt="政策解读" class="w-full h-48 object-cover rounded-lg mb-6" loading="lazy" width="800" height="192">
+                            <h3 class="text-xl font-semibold mb-4">《农村普惠金融服务实施意见》重点解读</h3>
+                            <p class="text-gray-600 mb-4">该意见强调要进一步完善农村金融服务体系，创新金融产品和服务模式，提高农村地区金融服务的可得性和便利性。重点包括以下几个方面：</p>
+                            <ul class="list-disc list-inside text-gray-600 space-y-2">
+                                <li>加强农村信用体系建设</li>
+                                <li>创新农村金融产品和服务</li>
+                                <li>完善农村支付服务环境</li>
+                                <li>加大对新型农业经营主体的支持力度</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <footer class="bg-gray-800 text-white py-16">
+        <div class="max-w-7xl mx-auto px-4">
+            <div class="grid grid-cols-1 md:grid-cols-4 gap-8">
+                <div>
+                    <h3 class="text-xl font-semibold mb-4">联系我们</h3>
+                    <div class="space-y-2">
+                        <p>客服电话：400-888-8888</p>
+                        <p>工作时间：周一至周日 9:00-18:00</p>
+                        <p>地址：北京市朝阳区金融街 888 号</p>
+                    </div>
+                </div>
+                <div>
+                    <h3 class="text-xl font-semibold mb-4">友情链接</h3>
+                    <div class="space-y-2">
+                        <a href="#" class="block hover:text-gray-300">农业农村部</a>
+                        <a href="#" class="block hover:text-gray-300">中国农业银行</a>
+                        <a href="#" class="block hover:text-gray-300">中国农业发展银行</a>
+                        <a href="#" class="block hover:text-gray-300">农村信用社</a>
+                    </div>
+                </div>
+                <div>
+                    <h3 class="text-xl font-semibold mb-4">关于我们</h3>
+                    <div class="space-y-2">
+                        <a href="#" class="block hover:text-gray-300">公司简介</a>
+                        <a href="#" class="block hover:text-gray-300">服务协议</a>
+                        <a href="#" class="block hover:text-gray-300">隐私政策</a>
+                        <a href="#" class="block hover:text-gray-300">招贤纳士</a>
+                    </div>
+                </div>
+                <div>
+                    <h3 class="text-xl font-semibold mb-4">关注我们</h3>
+                    <div class="flex space-x-4">
+                        <a href="#" class="w-10 h-10 bg-gray-700 rounded-full flex items-center justify-center hover:bg-gray-600">
+                            <i class="fab fa-weixin text-xl"></i>
+                        </a>
+                        <a href="#" class="w-10 h-10 bg-gray-700 rounded-full flex items-center justify-center hover:bg-gray-600">
+                            <i class="fab fa-weibo text-xl"></i>
+                        </a>
+                        <a href="#" class="w-10 h-10 bg-gray-700 rounded-full flex items-center justify-center hover:bg-gray-600">
+                            <i class="fab fa-qq text-xl"></i>
+                        </a>
+                    </div>
+                </div>
+            </div>
+            <div class="mt-8 pt-8 border-t border-gray-700 text-center text-gray-400">
+                <p>© 2024 农民信用贷款系统 版权所有</p>
+                <p class="mt-2">京ICP备12345678号-1 | 京公网安备11010502030232号</p>
+            </div>
+        </div>
+    </footer>
+    <div class="fixed right-6 bottom-6 space-y-4 z-50">
+        <button class="w-12 h-12 bg-primary text-white rounded-full shadow-lg flex items-center justify-center hover:bg-primary/90">
+            <i class="fas fa-headset text-xl"></i>
+        </button>
+        <button class="w-12 h-12 bg-gray-800 text-white rounded-full shadow-lg flex items-center justify-center hover:bg-gray-700">
+            <i class="fas fa-arrow-up text-xl"></i>
+        </button>
+    </div>
+
+    <script>
+        // Smooth scrolling for anchor links
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                document.querySelector(this.getAttribute('href')).scrollIntoView({
+                    behavior: 'smooth'
+                });
+            });
+        });
+
+        document.addEventListener('DOMContentLoaded', function() {
+            const loginBtn = document.getElementById('loginBtn');
+            const registerBtn = document.getElementById('registerBtn');
+            const authModal = document.getElementById('authModal');
+            const cancelAuth = document.getElementById('cancelAuth');
+
+            loginBtn.addEventListener('click', function() {
+                authModal.classList.remove('hidden');
+            });
+
+            registerBtn.addEventListener('click', function() {
+                window.location.href = 'pages/register.html';
+            });
+
+            cancelAuth.addEventListener('click', function() {
+                authModal.classList.add('hidden');
+            });
+
+            authModal.addEventListener('click', function(e) {
+                if (e.target === authModal) {
+                    authModal.classList.add('hidden');
+                }
+            });
+        });
+    </script>
+    <script src="scripts/scripts.js" defer></script>
+</body>
+</html>
